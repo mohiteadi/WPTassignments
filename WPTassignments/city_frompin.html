@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pincode page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        $(()=>{
+            console.log("event working");
+
+            $('#pin').blur(()=>{
+               // console.log("blr working");
+               let ip={pin:$('#pin').val()};
+               let parameterstothefunction={
+                data:ip,
+                 url:"http://localhost:400/pininfo",//'http://localhost:550/getareaname',
+                type:'get',
+                dataType:'json',
+                success:function(serverop){
+                    console.log("server response success");
+                    console.log(serverop);
+                    if(serverop.status)
+                    {
+                        $('#ci').val(serverop.detail.city);
+                        $('#msg').text("area found");
+
+                    }
+                    else
+                    {
+                        $('#ci').val("");
+                        $('msg').text("area not found");
+                    }
+
+                },
+                error:function(errorfromsv){
+                    console.log("error coming"+errorfromsv);
+                }
+               }
+               console.log("reached ajx function");
+               $.ajax(parameterstothefunction);
+              // $.ajax(parameterstothefunction);
+            })
+
+
+            $('#update').click(()=>{
+                console.log("update clicked");
+                let input={pin:$('#pin').val(),city:$('#ci').val()}
+                 let parameterstothefunction={
+                    data:input,
+                    url:"http://localhost:400/update",
+                    type:'get',
+                    dataType:'json',
+                    success:function(serverop){
+                        console.log("success from server");
+                        console.log(serverop)
+                        if(serverop.status)
+                        {
+                            $("#msg").text("updated successfully")
+                        }
+                        else
+                        {
+                            $("#msg").text(" not updated ")
+                        }
+                    },
+                    error:function(errorfromsv){
+                        console.log(errorfromsv);
+                    
+                    }
+                 }
+                 $.ajax(parameterstothefunction);
+            })
+        })
+    </script>
+</head>
+<body>
+    <h1>pincode page</h1>
+    <input type="text" id="pin" placeholder="enter pin of city"><br>
+    <input type="text" id="ci" placeholder="city name" ><br>
+    <button id="update">update</button><br>
+    <p id="msg"></p>
+    
+</body>
+</html>

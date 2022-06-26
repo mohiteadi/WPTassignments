@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Assignment1</title>
+    <script>
+        window.addEventListener('DOMContentLoaded', () => {
+            let arr = [];
+            arr.length = 10;
+            for (let i = 0; i < arr.length; i++) {
+                arr[i] = Math.floor((Math.random() * 100) + 1);
+            }
+            console.log(arr);
+            let num = document.querySelector("#num");
+            num.addEventListener('blur', () => {
+                let num = document.querySelector("#num").value;
+                let bool = isNumPresent(num);
+                buttonViewer(bool);
+                
+            });
+//==================================ADD================================================
+            let add = document.querySelector("#add");
+            add.addEventListener('click', () => {
+            let num = document.querySelector("#num").value;
+               // console.log(num);
+            arr.push(parseInt(num));
+            console.log(arr);
+            document.querySelector("#add").disabled = true;
+            document.querySelector("#msg").innerHTML = "Number is Added Successfully";
+            document.querySelector("#viewall").disabled = false;
+
+            });
+//==================================EDIT================================================
+
+            let edit = document.querySelector("#edit");
+            edit.addEventListener('click', () => {
+                //let newNum=prompt(Math.floor((Math.random() * 100) + 1));
+                let newNum=(Math.floor((Math.random() * 100) + 1));
+                alert("Replace this Number with "+ newNum);
+                //console.log(newNum);
+                let i;
+                for ( i = 0; i < arr.length; i++) {
+					if (arr[i]== document.querySelector("#num").value) {
+						break;
+					}}
+                    let boool=isNumPresent(newNum);
+                    if(boool==false){
+                        arr.splice(i, 1,newNum);
+                    document.querySelector("#msg").innerHTML = "Number is Replaced Successfully";
+                    }
+                    else{document.querySelector("#msg").innerHTML = "Number is Already present in array. Please press edit button again";}
+                    console.log(arr);
+            });
+//==================================DELETE================================================
+
+            let del = document.querySelector("#del");
+            del.addEventListener('click', () => {
+                
+                for (let i = 0; i < arr.length; i++) {
+					if (arr[i]== document.querySelector("#num").value) {
+						arr.splice(i, 1); 
+						break;
+					}}
+                    console.log(arr);
+                    document.querySelector("#msg").innerHTML = "Number is Deleted Successfully";
+                document.querySelector("#array").innerHTML = "[ "+arr+" ]";
+                    
+            });
+//==================================VIEW ALL================================================
+
+            let veiw = document.querySelector("#viewall");
+            veiw.addEventListener('click', () => {
+                document.querySelector("#array").innerHTML = "[ "+arr+" ]";
+            });
+
+            let oddnum = document.querySelector("#oddnum");
+            oddnum.addEventListener('click', () => {
+                let oddarr=[];
+                for(let i=0,j=0; i<arr.length; i++){
+                    if(i==0 || i%2 !=0){
+                        oddarr[j]=arr[i];
+                        j++;
+                    }
+                }
+                document.querySelector("#array").innerHTML = "[ "+oddarr+" ]";
+            });
+
+//==================================LOGIC PART================================================
+
+            
+            function buttonViewer(bool){
+
+                if (bool == true) {
+                    //console.log(num);
+                    document.querySelector("#add").disabled = true;
+                    document.querySelector("#edit").disabled = false;
+                    document.querySelector("#del").disabled = false;
+                    document.querySelector("#viewall").disabled = false;
+                    document.querySelector("#oddnum").disabled = false;
+                    document.querySelector("#msg").innerHTML = "Number is present in Array";
+                }
+                else {
+                    //console.log(num);
+                    document.querySelector("#add").disabled = false;
+                    document.querySelector("#edit").disabled = true;
+                    document.querySelector("#del").disabled = true;
+                    document.querySelector("#viewall").disabled = true;
+                    document.querySelector("#oddnum").disabled = true;
+                    document.querySelector("#msg").innerHTML = "Number is not present in Array";
+                }
+            }
+
+            function isNumPresent(num) {
+                //console.log(num);
+                let output = false;
+                for (let i = 0; i < arr.length; i++) {
+                    if (arr[i] == num) {
+                        output= true;
+                        break;
+                    }
+
+                }
+                return output;
+            }
+        });
+    //let x = Math.floor((Math.random() * 100) + 1);// for random no.s
+    </script>
+</head>
+
+<body>
+    <h1>Array of Element</h1>
+    <input type="text" id="num" placeholder="Enter Number">
+    <span id="msg">Message will appear here</span>
+    <br><br>
+    <button id="add" disabled>Add</button>
+    <button id="edit" disabled>Edit</button>
+    <button id="del" disabled>Delete</button>
+    <button id="viewall" disabled>Veiw All</button>
+    <button id="oddnum" disabled>Show Odd Position</button>
+    <hr>
+    <p> Content of Array : <span id="array">Array will display here after pressing View All</span></p> 
+
+</body>
+
+</html>

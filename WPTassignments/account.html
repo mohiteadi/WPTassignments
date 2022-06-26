@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pincode page</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+    <script>
+        $(()=>{
+            console.log("event working");
+
+            $('#acc').blur(()=>{
+               // console.log("blr working");
+               let input={accno:$('#acc').val()};
+               let parameterstothefunction={
+                data:input,
+                 url:"http://localhost:300/getaccinfo",
+                type:'get',
+                dataType:'json',
+                success:function(serverop){
+                    console.log("server response success");
+                    console.log(serverop.status);
+                    if(serverop.status)
+                    {
+                        $('#msg').text(serverop.info.balance);
+
+                    }
+                    else
+                    {
+                        $('msg').text("account not found");
+                    }
+
+                },
+                error:function(errorfromsv){
+                    console.log("error coming"+errorfromsv);
+                }
+               }
+               console.log("reached ajx function");
+               $.ajax(parameterstothefunction);
+            })
+
+            $("#b1").click(()=>{
+                let input={accno:$('#acc').val(),balance:$("#bal").val()}
+                let parameterstothefunction={
+                data:input,
+                 url:"http://localhost:300/addacc",
+                type:'get',
+                dataType:'json',
+                success:function(serverop){
+                    console.log("server response success");
+                    console.log(serverop);
+                    if(serverop.status)
+                    {
+                        $('#msg').text("details added");
+
+                    }
+                    else
+                    {
+                        $('msg').text("not added");
+                    }
+
+                },
+                error:function(errorfromsv){
+                    console.log("error coming"+errorfromsv);
+                }
+               }
+            
+               $.ajax(parameterstothefunction);
+
+
+            })
+
+
+        })
+    </script>
+</head>
+<body>
+    <h1>bank</h1>
+    <input type="text" id="acc" placeholder="enter account number"><span id="msg">balance</span>
+    <br>
+    <input type="text" id="bal" placeholder="enter balance"><br>
+    <button id="b1">add acoount</button>
+    
+</body>
+</html>
